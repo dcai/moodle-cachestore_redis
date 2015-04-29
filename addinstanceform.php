@@ -44,5 +44,9 @@ class cachestore_redis_addinstance_form extends cachestore_addinstance_form {
         $form->addHelpButton('server', 'server', 'cachestore_redis');
         $form->addRule('server', get_string('required'), 'required');
         $form->setType('server', PARAM_RAW);
+
+        $form->addElement('text', 'prefix', get_string('prefix', 'cachestore_redis'), array('size' => 16));
+        $form->setType('prefix', PARAM_TEXT);
+        $form->addRule('prefix', get_string('prefixinvalid', 'cachestore_redis'), 'regex', '#^[a-zA-Z0-9\-_:]+$#');
     }
 }

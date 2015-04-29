@@ -108,6 +108,11 @@ class cachestore_redis extends cache_store implements cache_is_configurable {
     protected $connection = null;
 
     /**
+     * @var string
+     */
+    protected $prefix = '';
+
+    /**
      * Static method to check if the store requirements are met.
      *
      * @return bool True if the stores software/hardware requirements have been met and it can be used. False otherwise.
@@ -214,6 +219,10 @@ class cachestore_redis extends cache_store implements cache_is_configurable {
         if (isset($configuration['database']) && !empty($configuration['database'])) {
             $this->database = (int)$configuration['database'];
         }
+        if (isset($configuration['prefix']) && !empty($configuration['prefix'])) {
+            $this->prefix = $configuration['prefix'];
+        }
+
         if (empty($this->host)) {
             // Not properly configured.
             return;
@@ -238,6 +247,7 @@ class cachestore_redis extends cache_store implements cache_is_configurable {
                 $this->persistentid,
                 $this->retryinterval
             );
+            $this->connection->set_prefix($this->prefix);
             if ($this->connection->is_connected() && $this->authenticate) {
                 $this->connection->authenticate($this->authpassword);
             }
@@ -373,7 +383,8 @@ class cachestore_redis extends cache_store implements cache_is_configurable {
      */
     public static function config_get_configuration_array($data) {
         return array(
-            'server' => $data->server
+            'server' => $data->server,
+            'prefix' => $data->prefix
         );
     }
 
@@ -387,6 +398,9 @@ class cachestore_redis extends cache_store implements cache_is_configurable {
         $data = array();
         if (!empty($config['server'])) {
             $data['server'] = $config['server'];
+        }
+        if (!empty($config['prefix'])) {
+            $data['prefix'] = $config['prefix'];
         }
         $editform->set_data($data);
     }

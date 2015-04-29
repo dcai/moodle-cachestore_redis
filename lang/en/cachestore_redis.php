@@ -30,3 +30,6 @@ $string['pluginname'] = 'Redis cachestore';
 $string['exception_operationnotconnected'] = 'The requested operation cannot be performed as there is not an open connection to a Redis server';
 $string['testserver'] = 'Test server';
 $string['testserver_desc'] = 'Enter the server to use for testing - usually 127.0.0.1';
+
+$string['prefix'] = 'Key prefix';
+$string['prefixinvalid'] = 'Invalid key prefix';

@@ -80,6 +80,12 @@ class cachestore_redis_driver {
     protected $retryinterval;
 
     /**
+     * Key prefix
+     * @var string
+     */
+    protected $prefix;
+
+    /**
      * Get a Redis connection instance.
      *
      * This method essential acts as a connection pool for the lifetime of the request.
@@ -146,6 +152,11 @@ class cachestore_redis_driver {
         if ($this->connectionresult) {
             $this->connection->select($database);
         }
+    }
+
+    public function set_prefix($prefix) {
+        $this->prefix = $prefix;
+        $this->connection->setOption(Redis::OPT_PREFIX, $this->prefix);
     }
 
     /**
